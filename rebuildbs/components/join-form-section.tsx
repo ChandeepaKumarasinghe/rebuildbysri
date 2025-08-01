@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Loader2, CheckCircle } from "lucide-react"
 
 export function JoinFormSection() {
   const [formData, setFormData] = useState({
@@ -18,16 +19,44 @@ export function JoinFormSection() {
     experience: "",
     goals: "",
   })
+  const [showModal, setShowModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // Handle form submission here
-    alert("Thank you for your interest! We will contact you soon.")
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setShowModal(true);
+    setIsLoading(true);
+    setIsSuccess(false);
+    
+    try {
+      const response = await fetch('/api/join-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        setIsSuccess(true);
+        setFormData({ name: "", email: "", phone: "", experience: "", goals: "" });
+      } else {
+        setShowModal(false);
+        alert('There was an error. Please try again.');
+      }
+    } catch (err) {
+      setShowModal(false);
+      alert('There was an error. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const closeModal = () => {
+    setShowModal(false);
+    setIsSuccess(false);
   }
 
   return (
@@ -60,6 +89,7 @@ export function JoinFormSection() {
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   className="bg-[#080808]/50 border-[#555555] text-[#c9c0bb] focus:border-[#ff4f00]"
                   style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -79,6 +109,7 @@ export function JoinFormSection() {
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   className="bg-[#080808]/50 border-[#555555] text-[#c9c0bb] focus:border-[#ff4f00]"
                   style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -97,6 +128,7 @@ export function JoinFormSection() {
                   onChange={(e) => handleInputChange("phone", e.target.value)}
                   className="bg-[#080808]/50 border-[#555555] text-[#c9c0bb] focus:border-[#ff4f00]"
                   style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
+                  disabled={isLoading}
                 />
               </div>
 
@@ -107,7 +139,7 @@ export function JoinFormSection() {
                 >
                   Fitness Level
                 </Label>
-                <Select onValueChange={(value) => handleInputChange("experience", value)}>
+                <Select onValueChange={(value) => handleInputChange("experience", value)} disabled={isLoading}>
                   <SelectTrigger className="bg-[#080808]/50 border-[#555555] text-[#c9c0bb] focus:border-[#ff4f00]">
                     <SelectValue placeholder="Select your level" />
                   </SelectTrigger>
@@ -141,12 +173,14 @@ export function JoinFormSection() {
                   className="bg-[#080808]/50 border-[#555555] text-[#c9c0bb] resize-none focus:border-[#ff4f00]"
                   placeholder="Tell us about your fitness goals..."
                   style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
+                  disabled={isLoading}
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-[#ff4f00] hover:bg-[#ff4f00]/90 text-[#080808] font-bold text-sm sm:text-base py-2 sm:py-3"
+                disabled={isLoading}
+                className="w-full bg-[#ff4f00] hover:bg-[#ff4f00]/90 text-[#080808] font-bold text-sm sm:text-base py-2 sm:py-3 disabled:opacity-50"
                 style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
               >
                 Submit Application
@@ -155,6 +189,42 @@ export function JoinFormSection() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Modal Overlay */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#080808]/80 backdrop-blur-sm">
+          <div className="bg-[#555555]/95 border-2 border-[#ff4f00] rounded-lg p-8 max-w-md mx-4 text-center">
+            {isLoading ? (
+              <div className="space-y-4">
+                <Loader2 className="w-12 h-12 text-[#ff4f00] animate-spin mx-auto" />
+                <h3 className="text-[#ff4f00] text-xl font-bold" style={{ fontFamily: "Helvetica, Arial, sans-serif" }}>
+                  Processing Your Application
+                </h3>
+                <p className="text-[#c9c0bb] text-base" style={{ fontFamily: "Helvetica, Arial, sans-serif" }}>
+                  Please wait while we submit your application to Rebuild Ladies Only Gym...
+                </p>
+              </div>
+            ) : isSuccess ? (
+              <div className="space-y-4">
+                <CheckCircle className="w-12 h-12 text-[#ff4f00] mx-auto" />
+                <h3 className="text-[#ff4f00] text-xl font-bold" style={{ fontFamily: "Helvetica, Arial, sans-serif" }}>
+                  Application Submitted!
+                </h3>
+                <p className="text-[#c9c0bb] text-base" style={{ fontFamily: "Helvetica, Arial, sans-serif" }}>
+                  Rebuild would reach out to you, have a great week!
+                </p>
+                <Button
+                  onClick={closeModal}
+                  className="mt-4 bg-[#ff4f00] hover:bg-[#ff4f00]/90 text-[#080808] font-bold"
+                  style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
+                >
+                  Okay
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      )}
     </section>
   )
 }
