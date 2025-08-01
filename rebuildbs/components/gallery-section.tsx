@@ -2,9 +2,11 @@
 
 import { useState, useRef } from "react"
 import { Play, Pause } from "lucide-react"
+import { useMounted } from "@/lib/use-mounted"
 
 export function GallerySection() {
   const [playingVideo, setPlayingVideo] = useState<number | null>(null)
+  const isMounted = useMounted()
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
 
   const galleryItems = [
@@ -43,6 +45,8 @@ export function GallerySection() {
   ]
 
   const handleVideoClick = (index: number) => {
+    if (!isMounted) return
+    
     const video = videoRefs.current[index]
     if (!video) return
 
@@ -94,7 +98,9 @@ export function GallerySection() {
               ) : (
                 <div className="relative w-full h-full">
                   <video
-                    ref={(el) => (videoRefs.current[index] = el)}
+                    ref={(el) => {
+                      videoRefs.current[index] = el
+                    }}
                     src={item.src}
                     poster={item.poster}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
@@ -104,16 +110,18 @@ export function GallerySection() {
                     playsInline
                     onClick={() => handleVideoClick(index)}
                   />
-                  <div
-                    className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#080808]/30"
-                    onClick={() => handleVideoClick(index)}
-                  >
-                    {playingVideo === index ? (
-                      <Pause className="text-[#ff4f00] w-8 h-8 sm:w-12 sm:h-12" />
-                    ) : (
-                      <Play className="text-[#ff4f00] w-8 h-8 sm:w-12 sm:h-12" />
-                    )}
-                  </div>
+                  {isMounted && (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[#080808]/30"
+                      onClick={() => handleVideoClick(index)}
+                    >
+                      {playingVideo === index ? (
+                        <Pause className="text-[#ff4f00] w-8 h-8 sm:w-12 sm:h-12" />
+                      ) : (
+                        <Play className="text-[#ff4f00] w-8 h-8 sm:w-12 sm:h-12" />
+                      )}
+                    </div>
+                  )}
                 </div>
               )}
               <div className="absolute inset-0 bg-[#080808]/20 group-hover:bg-[#080808]/40 transition-colors duration-300"></div>

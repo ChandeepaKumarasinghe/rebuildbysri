@@ -3,9 +3,11 @@
 import { useState } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useMounted } from "@/lib/use-mounted"
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const isMounted = useMounted()
 
   const navItems = [
     { href: "#hero", label: "Home" },
@@ -27,11 +29,11 @@ export function Navigation() {
         className="fixed top-6 right-6 z-50 bg-[#080808]/90 backdrop-blur-sm border-2 border-[#555555] text-[#c9c0bb] hover:bg-[#ff4f00] hover:text-[#080808] hover:border-[#ff4f00] transition-all duration-300 w-14 h-14 rounded-lg shadow-lg"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
       >
-        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        {isMounted && isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </Button>
 
       {/* Full Screen Menu Overlay */}
-      {isMenuOpen && (
+      {isMounted && isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-[#080808]/98 backdrop-blur-md">
           <div className="flex items-center justify-center min-h-screen p-8">
             <div className="text-center max-w-md w-full">
