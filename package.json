@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "googleapis": "^154.1.0"
+    "googleapis": "^154.1.0",
+    "lucide-react": "^0.536.0",
+    "react-masonry-css": "^1.0.16"
   }
 }
