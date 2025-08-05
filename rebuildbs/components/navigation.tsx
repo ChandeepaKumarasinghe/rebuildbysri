@@ -60,7 +60,7 @@ export function Navigation() {
             aria-label="Open shortcuts"
           >
             <img
-              src="/placeholder.svg?height=48&width=48"
+              src="https://i.pinimg.com/736x/83/43/1e/83431e538066e905c81507ef2c3aca25.jpg"
               alt="Gym Logo"
               className="w-12 h-12 rounded-lg object-cover group-hover:scale-110 transition-transform duration-300 group-hover:shadow-lg group-hover:shadow-[#ff4f00]/20"
             />

@@ -10,38 +10,36 @@ export function GallerySection() {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([])
 
   const galleryItems = [
-    { type: "image", src: "/placeholder.svg?height=300&width=300", alt: "Gym Equipment" },
+    { type: "image", src: "https://i.pinimg.com/736x/29/d6/c5/29d6c5741c01b385f25e3a2ec38a8ab0.jpg", alt: "Gallery Image 1" },
+    { type: "image", src: "https://i.pinimg.com/736x/44/83/4a/44834ae3cb82f8bf25029d0fc93d12b2.jpg", alt: "Gallery Image 2" },
+    { type: "image", src: "https://i.pinimg.com/736x/ae/1c/71/ae1c7114b4482fa7e099068dc8a26910.jpg", alt: "Gallery Image 3" },
+    { type: "image", src: "https://i.pinimg.com/736x/2f/2b/11/2f2b11925fbcffc8a347bf5b3f2f6312.jpg", alt: "Gallery Image 4" },
+    { type: "image", src: "https://i.pinimg.com/736x/6e/99/e5/6e99e51df2f0ca865e3954ca05ba2264.jpg", alt: "Gallery Image 5" },
+    { type: "image", src: "https://i.pinimg.com/736x/58/5e/38/585e38a4af70e8a498bd18c11fb6f316.jpg", alt: "Gallery Image 6" },
     {
       type: "video",
       src: "https://res.cloudinary.com/deygx3lzf/video/upload/v1752759657/cks_aapmyf.mp4",
       alt: "Workout Session",
-      poster: "/placeholder.svg?height=400&width=600",
+      poster: "https://i.pinimg.com/736x/29/d6/c5/29d6c5741c01b385f25e3a2ec38a8ab0.jpg",
     },
-    { type: "image", src: "/placeholder.svg?height=300&width=500", alt: "Yoga Class" },
-    { type: "image", src: "/placeholder.svg?height=500&width=300", alt: "Cardio Machines" },
     {
       type: "video",
       src: "https://res.cloudinary.com/deygx3lzf/video/upload/v1752759657/cks_aapmyf.mp4",
       alt: "Strength Training",
-      poster: "/placeholder.svg?height=300&width=300",
+      poster: "https://i.pinimg.com/736x/44/83/4a/44834ae3cb82f8bf25029d0fc93d12b2.jpg",
     },
-    { type: "image", src: "/placeholder.svg?height=400&width=600", alt: "Group Fitness" },
-    { type: "image", src: "/placeholder.svg?height=300&width=500", alt: "Pilates Class" },
     {
       type: "video",
       src: "https://res.cloudinary.com/deygx3lzf/video/upload/v1752759657/cks_aapmyf.mp4",
       alt: "Personal Training",
-      poster: "/placeholder.svg?height=500&width=300",
+      poster: "https://i.pinimg.com/736x/ae/1c/71/ae1c7114b4482fa7e099068dc8a26910.jpg",
     },
-    { type: "image", src: "/placeholder.svg?height=300&width=300", alt: "Gym Interior" },
-    { type: "image", src: "/placeholder.svg?height=400&width=600", alt: "Equipment Area" },
     {
       type: "video",
       src: "https://res.cloudinary.com/deygx3lzf/video/upload/v1752759657/cks_aapmyf.mp4",
       alt: "Cardio Session",
-      poster: "/placeholder.svg?height=300&width=500",
+      poster: "https://i.pinimg.com/736x/2f/2b/11/2f2b11925fbcffc8a347bf5b3f2f6312.jpg",
     },
-    { type: "image", src: "/placeholder.svg?height=500&width=300", alt: "Fitness Class" },
   ]
 
   const handleVideoClick = (index: number) => {

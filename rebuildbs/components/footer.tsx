@@ -33,7 +33,11 @@ export function Footer() {
       <div className="container mx-auto px-4">
         {/* Logo and Title */}
         <div className="flex items-center justify-center mb-6">
-          <img src="/placeholder.svg?height=40&width=40" alt="Gym Logo" className="w-10 h-10 rounded mr-3" />
+          <img
+            src="https://i.pinimg.com/736x/83/43/1e/83431e538066e905c81507ef2c3aca25.jpg"
+            alt="Gym Logo"
+            className="w-10 h-10 rounded mr-3"
+          />
           <h3
             className="text-[#ff4f00] text-xl sm:text-2xl font-bold"
             style={{ fontFamily: "Helvetica, Arial, sans-serif" }}
